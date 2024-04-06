@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class LotFilter {}","map":{"version":3,"names":["LotFilter"],"sources":["C:\\Users\\zeina\\angular-crud\\demo\\src\\app\\lot\\lot-filter.ts"],"sourcesContent":["export class LotFilter {\n}\n"],"mappings":"AAAA,OAAM,MAAOA,SAAS","ignoreList":[]},"metadata":{},"sourceType":"module","externalDependencies":[]}

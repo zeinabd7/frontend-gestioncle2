@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class ImmeubleFilter {}","map":{"version":3,"names":["ImmeubleFilter"],"sources":["C:\\Users\\zeina\\frontend-gestioncle\\src\\app\\immeuble\\immeuble-filter.ts"],"sourcesContent":["export class ImmeubleFilter {\n}\n"],"mappings":"AAAA,OAAM,MAAOA,cAAc","ignoreList":[]},"metadata":{},"sourceType":"module","externalDependencies":[]}
