@@ -1,0 +1,56 @@
+{ 
+    "title": "Hotel",
+    "entity": "hotel",
+    "api": {
+      "url": "localhost:4500/remises"
+    },
+    "filter": [
+      "id_lot"
+    ],
+    "fields": [
+      {
+        "name": "id",
+        "label": "Id",
+        "isId": true,
+        "readonly": true,
+        "type": "number"
+      },
+      {
+        "name": "id_lot",
+        "label": "Id lot",
+        "readonly": false,
+        "type": "number"
+      },
+      {
+        "name": "donneur",
+        "type": "string",
+        "label": "Donneur"
+      },
+      {
+        "name": "receveur",
+        "type": "string",
+        "label": "Receveur"
+      },
+      {
+        "name": "date_remise",
+        "type": "date",
+        "control": "date",
+        "label": "Date"
+      },
+      {
+        "name": "commentaire",
+        "type": "string",
+        "label": "Commentaire"
+      },
+      {
+        "name": "signature",
+        "type": "string",
+        "label": "Signature"
+      },
+      {
+        "name": "media",
+        "type": "string",
+        "label": "Media"
+      }
+    ]
+}

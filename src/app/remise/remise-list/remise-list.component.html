@@ -1,0 +1,53 @@
+<ol class="breadcrumb float-right">
+  <li class="breadcrumb-item"><a routerLink="/">Accueil</a></li>
+  <li class="breadcrumb-item active">Remises</li>
+</ol>
+<div class="card">
+  <div class="header">
+    <h2 class="title">Liste des remises effectuées</h2>
+  </div>
+  <div class="content">
+    <form #f="ngForm">
+    
+      
+      <a [routerLink]="['../remises', 'new' ]" class="btn btn-default">Ajouter</a>
+    </form>
+  </div>
+</div>
+<div class="card" *ngIf="remiseList.length > 0">
+  <div *ngIf="feedback.message" class="alert alert-{{feedback.type}}">{{ feedback.message }}</div>
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mb-0" id="datatable">
+      <thead>
+        <tr>
+          <th class="border-top-0" scope="col">Id</th>
+          <th class="border-top-0" scope="col">Lot</th>
+          <th class="border-top-0" scope="col">Donneur</th>
+          <th class="border-top-0" scope="col">Receveur</th>
+          <th class="border-top-0" scope="col">Date</th>
+          <th class="border-top-0" scope="col">Commentaire</th>
+          <th class="border-top-0" scope="col">Signature</th>
+          <th class="border-top-0" scope="col">Media</th>
+          <th class="border-top-0" scope="col" style="width:120px"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of remiseList" [class.active]="item === selectedRemise">
+        
+          <td>{{item.id}}</td>
+          <td>{{item.id_lot}}</td>
+          <td>{{item.donneur}}</td>
+          <td>{{item.receveur}}</td>
+          <td>{{item.date_remise | date}}</td>
+          <td>{{item.commentaire}}</td>
+          <td>{{item.signature}}</td>
+          <td>{{item.media}}</td>
+          <td style="white-space: nowrap">
+            <a [routerLink]="['../remises', item.id ]" class="btn btn-secondary">Modifier</a>&nbsp;
+            <button (click)="delete(item)" class="btn btn-danger">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

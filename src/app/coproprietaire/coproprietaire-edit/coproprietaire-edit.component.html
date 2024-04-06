@@ -1,0 +1,32 @@
+<ol class="breadcrumb float-right">
+  <li class="breadcrumb-item"><a routerLink="/">Accueil</a></li>
+  <li class="breadcrumb-item active">Coproprietaire</li>
+</ol>
+<div class="card">
+  <div class="header">
+    <h2 class="title">Details</h2>
+  </div>
+  <div class="content">
+    <div *ngIf="feedback.message" class="alert alert-{{feedback.type}}">{{ feedback.message }}</div>
+    <form *ngIf="coproprietaire" #editForm="ngForm" (ngSubmit)="save()">
+    
+      <div class="form-group">
+        <label>Id</label>
+        {{coproprietaire.id || 'n/a'}} 
+      </div>
+    
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input [(ngModel)]="coproprietaire.nom" id="nom" name="nom" class="form-control">
+      </div>
+    
+      <div class="form-group">
+        <label for="adresse">Adresse</label>
+        <input [(ngModel)]="coproprietaire.adresse" id="adresse" name="adresse" class="form-control">
+      </div>
+    
+      <button type="submit" class="btn btn-primary" [disabled]="!editForm.form.valid">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </form>
+  </div>
+</div>

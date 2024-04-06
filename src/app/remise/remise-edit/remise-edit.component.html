@@ -1,0 +1,64 @@
+<ol class="breadcrumb float-right">
+  <li class="breadcrumb-item"><a routerLink="/">Accueil</a></li>
+  <li class="breadcrumb-item active">Remises</li>
+</ol>
+<div class="card">
+  <div class="header">
+    <h2 class="title"> Details</h2>
+  </div>
+  <div class="content">
+    <div *ngIf="feedback.message" class="alert alert-{{feedback.type}}">{{ feedback.message }}</div>
+    <form *ngIf="remise" #editForm="ngForm" (ngSubmit)="save()">
+    
+      <div class="form-group">
+        <label>Id</label>
+        {{remise.id || 'n/a'}} 
+      </div>
+    
+      <!-- <div class="form-group">
+        <label for="id_lot">Id lot</label>
+        <input type="number" [(ngModel)]="remise.id_lot" id="id_lot" name="id_lot" class="form-control">
+      </div> -->
+      <div class="form-group">
+      <select id="id_lot" (change)="onchange($event)" class="form-control" >
+        <ng-container *ngFor="let lot of lots">
+          <option [value]="lot.id">{{lot.nom}}</option>
+        </ng-container>
+    </select>
+  </div>
+    
+      <div class="form-group">
+        <label for="donneur">Donneur</label>
+        <input [(ngModel)]="remise.donneur" id="donneur" name="donneur" class="form-control">
+      </div>
+    
+      <div class="form-group">
+        <label for="receveur">Receveur</label>
+        <input [(ngModel)]="remise.receveur" id="receveur" name="receveur" class="form-control">
+      </div>
+    
+      <div class="form-group">
+        <label for="date_remise">Date</label>
+        <input type="date" [(ngModel)]="remise.date_remise" id="date_remise" name="date_remise" class="form-control">
+      </div>
+    
+      <div class="form-group">
+        <label for="commentaire">Commentaire</label>
+        <input [(ngModel)]="remise.commentaire" id="commentaire" name="commentaire" class="form-control">
+      </div>
+    
+      <div class="form-group">
+        <label for="signature">Signature</label>
+        <input [(ngModel)]="remise.signature" id="signature" name="signature" class="form-control">
+      </div>
+    
+      <div class="form-group">
+        <label for="media">Media</label>
+        <input [(ngModel)]="remise.media" id="media" name="media" class="form-control">
+      </div>
+    
+      <button type="submit" class="btn btn-primary" [disabled]="!editForm.form.valid">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </form>
+  </div>
+</div>
