@@ -41,7 +41,10 @@
           <td>{{item.date_remise | date}}</td>
           <td>{{item.commentaire}}</td>
           <td>{{item.signature}}</td>
-          <td>{{item.media}}</td>
+           <td>{{item.media}}</td> 
+          <!-- <td>
+            <img src="uploads/{{ item.media }}" alt="Thumbnail" style="width: 100px; height: 100px;">
+        </td> -->
           <td style="white-space: nowrap">
             <a [routerLink]="['../remises', item.id ]" class="btn btn-secondary">Modifier</a>&nbsp;
             <button (click)="delete(item)" class="btn btn-danger">Supprimer</button>

@@ -14,10 +14,27 @@ export class ImmeubleService {
   constructor(private http: HttpClient) {
   }
 
-  findById(id: string): Observable<Immeuble> {
-    const url = `${this.api}/${id}`;
-    const params = { id: id };
-    return this.http.get<Immeuble>(url, {params, headers});
+  // findById(id: string): Observable<Immeuble> {
+  //   const url = `${this.api}/${id}`;
+  //   const params = { id: id };
+  //   return this.http.get<Immeuble>(url, {params, headers});
+  // }
+  findById(entity: any): any {
+    let immeuble={};
+    // Construct the URL
+    console.log("find by id",entity.id)
+    // Set up HTTP options with headers
+    
+    this.getList().subscribe({
+      next: (data:any) => {
+        immeuble=data.find((el:any)=>el.id===entity.id);
+        return immeuble
+      },
+      error: (e) => {
+        console.error(`Error! ${e.message}`)
+        return  (immeuble);
+      }
+      })
   }
 
   load(filter: ImmeubleFilter): void {
@@ -46,9 +63,8 @@ export class ImmeubleService {
     let params = new HttpParams();
     let url = '';
     if (entity.id) {
-      url = `${this.api}/${entity.id.toString()}`;
-      params = new HttpParams().set('ID', entity.id.toString());
-      return this.http.put<Immeuble>(url, entity, {headers, params});
+      url = `${this.api}`;
+      return this.http.put<Immeuble>(url, entity, {headers});
     } else {
       url = `${this.api}`;
       return this.http.post<Immeuble>(url, entity, {headers, params});
@@ -56,14 +72,18 @@ export class ImmeubleService {
   }
 
   delete(entity: Immeuble): Observable<Immeuble> {
-    let params = new HttpParams();
     let url = '';
+    let body={id:entity.id};
+    const httpOptions = {
+      headers: headers,
+      body: body 
+    };
     if (entity.id) {
-      url = `${this.api}/${entity.id.toString()}`;
-      params = new HttpParams().set('ID', entity.id.toString());
-      return this.http.delete<Immeuble>(url, {headers, params});
+      url = `${this.api}`;
+      return this.http.delete<Immeuble>(url,httpOptions);
     }
     return EMPTY;
   }
+  
 }
 

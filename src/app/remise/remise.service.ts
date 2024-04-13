@@ -5,6 +5,7 @@ import { EMPTY, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 const headers = new HttpHeaders().set('Accept', 'application/json');
+headers.append('Content-Type','multipart/form-data');
 
 @Injectable()
 export class RemiseService {
@@ -14,10 +15,21 @@ export class RemiseService {
   constructor(private http: HttpClient) {
   }
 
-  findById(id: string): Observable<Remise> {
-    const url = `${this.api}/${id}`;
-    const params = { id: id };
-    return this.http.get<Remise>(url, {params, headers});
+  
+  findById(entity: any): any {
+    let remise={};
+    console.log("find by id",entity.id)
+    
+    this.getList().subscribe({
+      next: (data:any) => {
+        remise=data.find((el:any)=>el.id===entity.id);
+        return remise
+      },
+      error: (e) => {
+        console.error(`Error! ${e.message}`)
+        return  (remise);
+      }
+      })
   }
 
   getList(): Observable<any> {
@@ -42,29 +54,41 @@ export class RemiseService {
 
     return this.http.get<Remise[]>(this.api, {params, headers});
   }
+  
+  // save(formData: any): Observable<Remise> {
+  //   console.log("le service princiapal");
+  //   let headers = new HttpHeaders();
+  //   let params = new HttpParams();    
+  //   return this.http.post<Remise>(this.api, formData, { headers, params });
+  // }
 
   save(entity:any): Observable<Remise> {
     let params = new HttpParams();
     let url = '';
     if (entity.id) {
-      url = `${this.api}/${entity.id.toString()}`;
-      params = new HttpParams().set('ID', entity.id.toString());
-      return this.http.put<Remise>(url, entity, {headers, params});
+      url = `${this.api}`;
+      return this.http.put<Remise>(url, entity, {headers});
     } else {
+      
       url = `${this.api}`;
       return this.http.post<Remise>(url, entity, {headers, params});
     }
   }
 
   delete(entity: Remise): Observable<Remise> {
-    let params = new HttpParams();
     let url = '';
+    let body={id:entity.id};
+    const httpOptions = {
+      headers: headers,
+      body: body 
+    };
     if (entity.id) {
-      url = `${this.api}/${entity.id.toString()}`;
-      params = new HttpParams().set('ID', entity.id.toString());
-      return this.http.delete<Remise>(url, {headers, params});
+      url = `${this.api}`;
+      return this.http.delete<Remise>(url, httpOptions);
     }
     return EMPTY;
   }
+ 
+  
 }
 

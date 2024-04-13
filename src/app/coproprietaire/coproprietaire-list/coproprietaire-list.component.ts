@@ -15,9 +15,7 @@ export class CoproprietaireListComponent implements OnInit {
   coproprietaireList:any=[];
 
 
-  // get coproprietaireList(): Coproprietaire[] {
-  //   return this.coproprietaireService.coproprietaireList;
-  // }
+  
 
   constructor(private coproprietaireService: CoproprietaireService) {
   }
@@ -38,7 +36,7 @@ export class CoproprietaireListComponent implements OnInit {
         this.coproprietaireList=data ;
       },
       error:(err:any)=> {
-        console.error(err); // Log any errors
+        console.error(err); 
       }}
     );
   }
@@ -48,16 +46,16 @@ export class CoproprietaireListComponent implements OnInit {
   }
 
   delete(coproprietaire: Coproprietaire): void {
-    if (confirm('Are you sure?')) {
+    console.log(coproprietaire);
+    if (confirm('Etes vous sure?')) {
       this.coproprietaireService.delete(coproprietaire).subscribe({
-        next: () => {
-          this.feedback = {type: 'success', message: 'Delete was successful!'};
-          setTimeout(() => {
-            this.search();
-          }, 1000);
+        next: (data:any) => {
+          console.log(data);
+          this.reset();
+          this.feedback = {type: 'success', message: 'Suprression effectuée!'};
         },
-        error: err => {
-          this.feedback = {type: 'warning', message: 'Error deleting.'};
+        error:(err:any) => {
+          this.feedback = {type: 'warning', message: 'Erreur de  suppression.'};
         }
       });
     }

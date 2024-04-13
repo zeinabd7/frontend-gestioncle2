@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoproprietaireService } from '../coproprietaire.service';
 import { Coproprietaire } from '../coproprietaire';
 import { map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 
 @Component({
   selector: 'app-coproprietaire-edit',
@@ -14,6 +14,8 @@ export class CoproprietaireEditComponent implements OnInit {
   id!: string;
   coproprietaire!: Coproprietaire;
   feedback: any = {};
+  itemId: any={};
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -21,31 +23,28 @@ export class CoproprietaireEditComponent implements OnInit {
     private coproprietaireService: CoproprietaireService) {
   }
 
+  
   ngOnInit() {
-    this
-      .route
-      .params
-      .pipe(
-        map(p => p['id']),
-        switchMap(id => {
-          if (id === 'new') { return of(new Coproprietaire()); }
-          return this.coproprietaireService.findById(id);
-        })
-      )
-      .subscribe({
-        next: coproprietaire => {
-          this.coproprietaire = coproprietaire;
-          this.feedback = {};
-        },
-        error: err => {
-          this.feedback = {type: 'warning', message: 'Error loading'};
+    //TODO:
+    this.itemId = this.route.snapshot.paramMap.get("id");
+    console.log(this.itemId)
+    this.coproprietaireService.getList().subscribe({
+      next:(data:any) =>{
+        this.coproprietaire=data.find((el:any)=>el.id===this.itemId);
+        if (this.coproprietaire===undefined) {
+          this.coproprietaire = new Coproprietaire()
         }
-      });
+      },
+      error: (err:any) => console.log(err)
+    })
+
   }
+  
 
   save() {
     this.coproprietaireService.save(this.coproprietaire).subscribe({
       next: coproprietaire => {
+        console.log("save function",coproprietaire);
         this.coproprietaire = coproprietaire;
         this.feedback = {type: 'success', message: 'Enregistrement effectué!'};
         setTimeout(async () => {

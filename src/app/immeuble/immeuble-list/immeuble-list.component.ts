@@ -14,9 +14,7 @@ export class ImmeubleListComponent implements OnInit {
   feedback: any = {};
   immeubleList:any=[];
 
-  // get immeubleList(): Immeuble[] {
-  //   return this.immeubleService.immeubleList;
-  // }
+  
 
   constructor(private immeubleService: ImmeubleService) {
   }
@@ -37,7 +35,7 @@ export class ImmeubleListComponent implements OnInit {
         this.immeubleList=data ;
       },
       error:(err:any)=> {
-        console.error(err); // Log any errors
+        console.error(err); 
       }}
     );
   }
@@ -47,16 +45,16 @@ export class ImmeubleListComponent implements OnInit {
   }
 
   delete(immeuble: Immeuble): void {
-    if (confirm('Are you sure?')) {
+    if (confirm('Etes vous sure?')) {
       this.immeubleService.delete(immeuble).subscribe({
-        next: () => {
-          this.feedback = {type: 'success', message: 'Delete was successful!'};
-          setTimeout(() => {
-            this.search();
-          }, 1000);
+        next: (data:any) => {
+          console.log(data);
+          this.reset();
+          this.feedback = {type: 'success', message: 'Suppression effectuée!'};
+          
         },
-        error: err => {
-          this.feedback = {type: 'warning', message: 'Error deleting.'};
+        error: (err:any) => {
+          this.feedback = {type: 'warning', message: 'Erreur suppression .'};
         }
       });
     }

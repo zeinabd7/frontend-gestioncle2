@@ -54,7 +54,11 @@
     
       <div class="form-group">
         <label for="media">Media</label>
-        <input [(ngModel)]="remise.media" id="media" name="media" class="form-control">
+        <input type="file" [(ngModel)]="remise.media" name="media" (change)="onFileSelected($event)">
+        <!-- <button (click)="onUpload()">Upload the file</button> -->
+        <!-- <input type="file" [(ngModel)]="remise.media" id="media" name="media" accept=".jpg,.png,.gif" class="form-control"> -->
+        <!-- <input type="file" name="media" class="file-input" (change)="onChange($event)" #fileUpload /> -->
+        <!-- <input [(ngModel)]="remise.media" id="media" name="media" class="form-control"> -->
       </div>
     
       <button type="submit" class="btn btn-primary" [disabled]="!editForm.form.valid">Save</button>

@@ -14,10 +14,21 @@ export class LotService {
   constructor(private http: HttpClient) {
   }
 
-  findById(id: string): Observable<Lot> {
-    const url = `${this.api}/${id}`;
-    const params = { id: id };
-    return this.http.get<Lot>(url, {params, headers});
+  
+  findById(entity: any): any {
+    let coproprietaire={};
+    console.log("find by id",entity.id)
+    
+    this.getList().subscribe({
+      next: (data:any) => {
+        coproprietaire=data.find((el:any)=>el.id===entity.id);
+        return coproprietaire
+      },
+      error: (e) => {
+        console.error(`Error! ${e.message}`)
+        return  (coproprietaire);
+      }
+      })
   }
 
   load(filter: LotFilter): void {
@@ -46,9 +57,8 @@ export class LotService {
     let params = new HttpParams();
     let url = '';
     if (entity.id) {
-      url = `${this.api}/${entity.id.toString()}`;
-      params = new HttpParams().set('ID', entity.id.toString());
-      return this.http.put<Lot>(url, entity, {headers, params});
+      url = `${this.api}`;
+      return this.http.put<Lot>(url, entity, {headers});
     } else {
       url = `${this.api}`;
       return this.http.post<Lot>(url, entity, {headers, params});
@@ -56,14 +66,20 @@ export class LotService {
   }
 
   delete(entity: Lot): Observable<Lot> {
-    let params = new HttpParams();
     let url = '';
+    let body={id:entity.id};
+    const httpOptions = {
+      headers: headers,
+      body: body 
+    };
+
     if (entity.id) {
-      url = `${this.api}/${entity.id.toString()}`;
-      params = new HttpParams().set('ID', entity.id.toString());
-      return this.http.delete<Lot>(url, {headers, params});
+      url = `${this.api}`;
+      return this.http.delete<Lot>(url, httpOptions);
     }
     return EMPTY;
   }
+
+  
 }
 

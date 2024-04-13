@@ -15,10 +15,7 @@ export class RemiseListComponent implements OnInit {
   remiseList: any = [];
   
 
-  // get remiseList(): Remise[] {
-  //   return this.remiseService.remiseList;
-  // }
-
+  
   constructor(private remiseService: RemiseService) {
   }
 
@@ -30,9 +27,7 @@ export class RemiseListComponent implements OnInit {
   search(): void {
     this.remiseService.load(this.filter);
   }
-  // reset(): void {
-  //   this.remiseService.getList();
-  // }
+  
   reset(): void {
     this.remiseService.getList().subscribe(
       
@@ -41,7 +36,7 @@ export class RemiseListComponent implements OnInit {
         this.remiseList=data ;
       },
       error:(err:any)=> {
-        console.error(err); // Log any errors
+        console.error(err); 
       }}
     );
   }
@@ -51,16 +46,16 @@ export class RemiseListComponent implements OnInit {
   }
 
   delete(remise: Remise): void {
-    if (confirm('Are you sure?')) {
+    if (confirm('Etes vous sure?')) {
       this.remiseService.delete(remise).subscribe({
-        next: () => {
-          this.feedback = {type: 'success', message: 'Delete was successful!'};
-          setTimeout(() => {
-            this.search();
-          }, 1000);
+        next: (data:any) => {
+          console.log(data);
+          this.reset();
+          this.feedback = {type: 'success', message: 'Suppression effectuée avec succès!'};
+          
         },
         error: err => {
-          this.feedback = {type: 'warning', message: 'Error deleting.'};
+          this.feedback = {type: 'warning', message: 'Erreur de suppression'};
         }
       });
     }

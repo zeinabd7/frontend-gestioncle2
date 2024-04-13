@@ -24,6 +24,7 @@ onchange($event: any) {
   feedback: any = {};
   immeubles: any = [];
   coproprietaires: any = [];
+  itemId:any={};
 
 
 
@@ -35,28 +36,22 @@ onchange($event: any) {
     private coproprioService:CoproprietaireService) {
   }
 
+  
   ngOnInit() {
-    this
-      .route
-      .params
-      .pipe(
-        map(p => p['id']),
-        switchMap(id => {
-          if (id === 'new') { return of(new Lot()); }
-          return this.lotService.findById(id);
-        })
-      )
-      .subscribe({
-        next: lot => {
-          this.lot = lot;
-          this.feedback = {};
-          this.loadImmeubles();
-          this.loadCoproprietaire();
-        },
-        error: err => {
-          this.feedback = {type: 'warning', message: 'Error loading'};
+    this.itemId = this.route.snapshot.paramMap.get("id");
+    console.log(this.itemId)
+    this.lotService.getList().subscribe({
+      next:(data:any) =>{
+        this.loadImmeubles();
+        this.loadCoproprietaire();
+        this.lot=data.find((el:any)=>el.id===this.itemId);
+        if (this.lot===undefined) {
+          this.lot = new Lot()
         }
-      });
+      },
+      error: (err:any) => console.log(err)
+    })
+
   }
 
   loadImmeubles(){

@@ -15,9 +15,7 @@ export class LotListComponent implements OnInit {
   lotList:any=[];
 
 
-  // get lotList(): Lot[] {
-  //   return this.lotService.lotList;
-  // }
+  
 
   constructor(private lotService: LotService) {
   }
@@ -38,7 +36,7 @@ export class LotListComponent implements OnInit {
         this.lotList=data ;
       },
       error:(err:any)=> {
-        console.error(err); // Log any errors
+        console.error(err); 
       }}
     );
   }
@@ -48,16 +46,16 @@ export class LotListComponent implements OnInit {
   }
 
   delete(lot: Lot): void {
-    if (confirm('Are you sure?')) {
+    if (confirm('Etes vous sur?')) {
       this.lotService.delete(lot).subscribe({
-        next: () => {
-          this.feedback = {type: 'success', message: 'Delete was successful!'};
-          setTimeout(() => {
-            this.search();
-          }, 1000);
+        next: (data:any) => {
+          console.log(data);
+          this.reset();
+          this.feedback = {type: 'success', message: 'Suppression effectuée!'};
+          
         },
         error: err => {
-          this.feedback = {type: 'warning', message: 'Error deleting.'};
+          this.feedback = {type: 'warning', message: 'Erreur suprression.'};
         }
       });
     }

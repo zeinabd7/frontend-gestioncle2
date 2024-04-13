@@ -14,6 +14,7 @@ export class ImmeubleEditComponent implements OnInit {
   id!: string;
   immeuble!: Immeuble;
   feedback: any = {};
+  itemId:any={};
 
   constructor(
     private route: ActivatedRoute,
@@ -22,26 +23,20 @@ export class ImmeubleEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this
-      .route
-      .params
-      .pipe(
-        map(p => p['id']),
-        switchMap(id => {
-          if (id === 'new') { return of(new Immeuble()); }
-          return this.immeubleService.findById(id);
-        })
-      )
-      .subscribe({
-        next: immeuble => {
-          this.immeuble = immeuble;
-          this.feedback = {};
-        },
-        error: err => {
-          this.feedback = {type: 'warning', message: 'Error loading'};
+    this.itemId = this.route.snapshot.paramMap.get("id");
+    console.log(this.itemId)
+    this.immeubleService.getList().subscribe({
+      next:(data:any) =>{
+        this.immeuble=data.find((el:any)=>el.id===this.itemId);
+        if (this.immeuble===undefined) {
+          this.immeuble = new Immeuble()
         }
-      });
+      },
+      error: (err:any) => console.log(err)
+    })
+
   }
+  
 
   save() {
     this.immeubleService.save(this.immeuble).subscribe({
